@@ -6,7 +6,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
+import android.widget.HorizontalScrollView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +33,7 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.CoordinateBounds
 import com.mapbox.maps.EdgeInsets
+import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.plugin.animation.camera
 import com.mapbox.maps.plugin.locationcomponent.location
 import kotlinx.coroutines.Dispatchers
@@ -108,6 +111,14 @@ class MapActivity : AppCompatActivity(), LocationCallback, BoolderClickListener,
         }
     }
 
+    private fun toggleMenu() {
+        binding.mapView.getMapboxMap().addOnCameraChangeListener {
+            if (binding.mapView.getMapboxMap().cameraState.zoom > 15) binding.horizontalScrollView.visibility =
+                View.VISIBLE
+            else binding.horizontalScrollView.visibility = View.INVISIBLE
+        }
+    }
+
     private fun setupMap() {
         binding.mapView.setup(this, layerFactory.buildStyle())
     }
@@ -129,7 +140,6 @@ class MapActivity : AppCompatActivity(), LocationCallback, BoolderClickListener,
 
         val view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_pois, binding.root, false)
         val bottomSheet = BottomSheetDialog(this, R.style.BottomSheetDialogTheme)
-
         view.apply {
             findViewById<TextView>(R.id.pois_title).text = poisName
             findViewById<Button>(R.id.open).setOnClickListener {

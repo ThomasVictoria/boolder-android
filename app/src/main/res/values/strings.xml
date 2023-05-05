@@ -40,6 +40,8 @@
     <string name="pois_bs_open">See in Google Maps</string>
     <string name="pois_bs_close">Close</string>
 
+    <string name="button_levels" translatable="false">Levels</string>
+
     <plurals name="variant">
         <item quantity="one">%d variant</item>
         <item quantity="other">%d variants</item>
